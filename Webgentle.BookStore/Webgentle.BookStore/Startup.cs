@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +23,7 @@ namespace Webgentle.BookStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
@@ -36,17 +38,37 @@ namespace Webgentle.BookStore
             {
                 app.UseExceptionHandler("/Error");
             }
-
+            //app.Use(async (context, next)=>
+            //{
+            //    await context.Response.WriteAsync("This is a frist middlewear restponse");
+            //    await next();
+            //    await context.Response.WriteAsync("This is a frist middlewear restponse year");
+            //});
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("This is a second middlewear restponse");
+            //    await next();
+            //    await context.Response.WriteAsync("This is a second middlewear restponse year");
+            //});
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("This is a third middle year");
+            //});
             app.UseStaticFiles();
 
             app.UseRouting();
+
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapDefaultControllerRoute();
             });
+
+           
         }
+      
+
     }
 }
